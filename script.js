@@ -36,7 +36,6 @@ function processImage() {
     const resultContainer = document.getElementById('resultContainer');
     const afterImg = document.getElementById('afterImg');
     const beforeImg = document.getElementById('beforeImg');
-    const downloadBtn = document.getElementById('downloadBtn');
     const canvas = document.getElementById('upscaleCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -49,7 +48,6 @@ function processImage() {
         const img = new Image();
         img.onload = function() {
             try {
-                // Limit max dimensions to prevent browser crash on heavy mobile processors
                 let maxDim = 2000;
                 let w = img.width;
                 let h = img.height;
@@ -60,7 +58,7 @@ function processImage() {
                     h = Math.floor(h * ratio);
                 }
 
-                const targetWidth = w * 2; // Safe 2x/4x multiplier for mobile
+                const targetWidth = w * 2;
                 const targetHeight = h * 2;
 
                 canvas.width = targetWidth;
@@ -74,7 +72,6 @@ function processImage() {
                 
                 afterImg.src = enhancedUrl;
                 beforeImg.src = originalImgUrl;
-                downloadBtn.href = enhancedUrl;
 
                 afterImg.onload = () => {
                     beforeImg.style.width = `${afterImg.clientWidth}px`;
@@ -92,6 +89,27 @@ function processImage() {
         img.src = event.target.result;
     };
     reader.readAsDataURL(selectedFile);
+}
+
+// Smart Link Download Function
+function downloadWithAd() {
+    // 1. ඔබේ Adsterra Smart Link එක මෙතනට දාන්න
+    const smartLinkUrl = "https://www.profitableratecpmnetwork.com/kpgnae8ytq?key=5bb33568847dd4a02d217d67fe9897bc"; 
+
+    // 2. අලුත් Tab එකකින් Smart Link එක Open කිරීම
+    window.open(smartLinkUrl, '_blank');
+
+    // 3. එකම වෙලාවට Image එක Download වීම ආරම්භ වීම
+    const canvas = document.getElementById('upscaleCanvas');
+    if (canvas) {
+        const imageURL = canvas.toDataURL('image/png', 1.0);
+        const link = document.createElement('a');
+        link.href = imageURL;
+        link.download = 'enhanced-4x.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 }
 
 function moveSlider(val) {
@@ -140,25 +158,3 @@ function sendFeedback(type) {
         alert("Thanks! We'll work on improving the quality. 👎");
     }
 }
-   // Smart Link Download Function
-function downloadWithAd() {
-    const downloadBtn = document.getElementById('downloadBtn'); // If you use anchor or dynamic link
-    // 1. ඔබේ Adsterra Smart Link එක මෙතනට දාන්න
-    const smartLinkUrl = "https://your-adsterra-smart-link-here.com"; 
-
-    // 2. අලුත් Tab එකකින් Smart Link එක Open කිරීම
-    window.open(smartLinkUrl, '_blank');
-
-    // 3. එකම වෙලාවට Image එක Download වීම ආරම්භ වීම
-    const canvas = document.getElementById('upscaleCanvas');
-    if (canvas) {
-        const imageURL = canvas.toDataURL('image/png', 1.0);
-        const link = document.createElement('a');
-        link.href = imageURL;
-        link.download = 'enhanced-4x.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-}
-
